@@ -27,8 +27,8 @@ In the Settings section of your Heroku app you'll see a Config Vars section. Add
 
 - **CONSUMER_KEY** - Your Twitter App's Consumer Key
 - **CONSUMER_SECRET** - Your Twitter App's Consumer Secret
-- **ACCESS_TOKEN_KEY** - Your Twitter App's Access Token Key
-- **ACCESS_TOKEN_SECRET** - Your Twitter App's Access Token Secret
+- **ACCESS_TOKEN_KEY** - The Access Token Key of the Twitter Account your bot is posting from
+- **ACCESS_TOKEN_SECRET** - The Access Token Secret of the Twitter Account your bot is posting from
 - **OPENSEA_COLLECTION_SLUG** - The OpenSea collection name you wish to track (e.g. `niftydudes`)
 
 ## Tweet Content
@@ -40,6 +40,7 @@ By default, in the tweet itself I am including an image of the item that was sol
 If you are having trouble setting up your Twitter Developer project, Heroku project etc. the following resources may be of use
 
 [Heroku - Deploying with Git](https://devcenter.heroku.com/articles/git)
+[Twurl - Generate Access Token Key/Secret Locally](https://github.com/twitter/twurl)
 [OpenSea Events API](https://docs.opensea.io/reference#retrieving-asset-events)
 
 ## License
