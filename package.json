@@ -1,0 +1,21 @@
+{
+    "name": "opensea-sales-twitter-bot",
+    "version": "1.0.0",
+    "description": "Twitter bot tweeting Opensea sales for a given collection",
+    "main": "app.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Daniel Griffin (http://github.com/dsgriffin)",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/dsgriffin/opensea-sales-twitter-bot/issues"
+    },
+    "homepage": "http://github.com/dsgriffin/opensea-sales-twitter-bot",
+    "dependencies": {
+        "axios": "^0.18.0",
+        "lodash": "^4.17.21",
+        "moment": "^2.29.1",
+        "twitter": "^1.7.1"
+    }
+}
