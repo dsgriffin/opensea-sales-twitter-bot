@@ -31,6 +31,10 @@ In the Settings section of your Heroku app you'll see a Config Vars section. Add
 - **ACCESS_TOKEN_SECRET** - Your Twitter App's Access Token Secret
 - **OPENSEA_COLLECTION_SLUG** - The OpenSea collection name you wish to track (e.g. `niftydudes`)
 
+## Tweet Content
+
+By default, in the tweet itself I am including an image of the item that was sold, the name of the item, the price in both ETH & USD, an external link if one exists + a couple of hashtags. Check out the [OpenSea Events API](https://docs.opensea.io/reference#retrieving-asset-events) and include whatever extra properties you'd like (such as seller/buyer addresses etc.).
+
 ## Useful Resources
 
 If you are having trouble setting up your Twitter Developer project, Heroku project etc. the following resources may be of use
