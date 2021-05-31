@@ -39,10 +39,12 @@ By default, in the tweet itself I am including an image of the item that was sol
 
 If you are having trouble setting up your Twitter Developer project, Heroku project etc. the following resources may be of use
 
-[Heroku - Deploying with Git](https://devcenter.heroku.com/articles/git)
-[Twurl - Generate Access Token Key/Secret Locally](https://github.com/twitter/twurl)
-[OpenSea Events API](https://docs.opensea.io/reference#retrieving-asset-events)
+- [Heroku - Deploying with Git](https://devcenter.heroku.com/articles/git)
+- [Twurl - Generate Access Token Key/Secret Locally](https://github.com/twitter/twurl)
+- [OpenSea Events API](https://docs.opensea.io/reference#retrieving-asset-events)
 
 ## License
 
-This code is licensed under the [ISC License](https://choosealicense.com/licenses/isc/). Please include proper attribution if you fork or modify this project in some way. Thank you!
+This code is licensed under the [ISC License](https://choosealicense.com/licenses/isc/).
+
+Please include proper attribution if you fork or modify this project in some way. Thank you!
