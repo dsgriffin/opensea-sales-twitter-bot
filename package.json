@@ -13,9 +13,9 @@
     },
     "homepage": "http://github.com/dsgriffin/opensea-sales-twitter-bot",
     "dependencies": {
-        "axios": "^0.18.0",
+        "axios": "^0.21.1",
         "lodash": "^4.17.21",
         "moment": "^2.29.1",
-        "twitter": "^1.7.1"
+        "twit": "^2.2.11"
     }
 }

@@ -6,13 +6,13 @@ const moment = require('moment');
 const tweet = require('./tweet');
 
 function formatAndSendTweet(event) {
-    const tokenName = _.get(event, ['asset', 'token_name']);
+    const tokenName = _.get(event, ['asset', 'name']);
     const externalLink = _.get(event, ['asset', 'external_link']);
     const image = _.get(event, ['asset', 'image_url']);
-    const ethPrice = _.get(event, ['payment_token', 'eth_price']);
-    const usdPrice = _.get(event, ['payment_token', 'usd_price']);
+    const ethPrice = parseFloat(_.get(event, ['payment_token', 'eth_price']));
+    const usdPrice = parseFloat(_.get(event, ['payment_token', 'usd_price']));
 
-    const tweetText = `${tokenName} bought for Ξ${ethPrice.toFixed(5)} ($${usdPrice.toFixed(3)}). ${externalLink} #NFT #NFTs`;
+    const tweetText = `${tokenName} bought for Ξ${ethPrice} ($${usdPrice.toFixed(2)}). ${externalLink} #NFT #WickedCraniums`;
 
     return tweet.tweet(tweetText, image);
 }
@@ -36,7 +36,7 @@ setInterval(() => {
             return formatAndSendTweet(event);
         });
     }).catch((error) => {
-        console.error(_.get(error, ['response', 'data']));
+        console.error(error);
     });
 }, 60000);
 
