@@ -29,7 +29,7 @@ In the Settings section of your Heroku app you'll see a Config Vars section. Add
 - **CONSUMER_SECRET** - Your Twitter App's Consumer Secret
 - **ACCESS_TOKEN_KEY** - The Access Token Key of the Twitter Account your bot is posting from
 - **ACCESS_TOKEN_SECRET** - The Access Token Secret of the Twitter Account your bot is posting from
-- **OPENSEA_COLLECTION_SLUG** - The OpenSea collection name you wish to track (e.g. `niftydudes`)
+- **OPENSEA_COLLECTION_SLUG** - The OpenSea collection name you wish to track (e.g. `cryptopunks`)
 
 ## Tweet Content
 
