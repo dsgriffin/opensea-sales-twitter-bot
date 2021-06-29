@@ -7,16 +7,12 @@ const tweet = require('./tweet');
 function formatAndSendTweet(event) {
     const tokenName = _.get(event, ['asset', 'name']);
     const image = _.get(event, ['asset', 'image_url']);
-    const ethPrice = _.get(event, 'total_price');
-    const formattedPrice = ethers.utils.formatEther(ethPrice.toString());
+    const totalPrice = _.get(event, 'total_price');
+    const usdValue = _.get(event, ['payment_token', 'usd_price']);
 
-    // Don't tweet out sales below 0.5 (preference, can be changed)
-    if (Number(formattedPrice) < 0.5) {
-        console.log(`${tokenName} sold for ${formattedPrice}${ethers.constants.EtherSymbol}, below tweet price`);
-        return;
-    }
+    const formattedEthPrice = ethers.utils.formatEther(totalPrice.toString());
 
-    const tweetText = `${tokenName} bought for ${formattedPrice}${ethers.constants.EtherSymbol}. #NFT #NFTs`;
+    const tweetText = `${tokenName} bought for ${formattedEthPrice}Ξ ($${formattedEthPrice * usdValue})`;
 
     console.log(tweetText);
 
