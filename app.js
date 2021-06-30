@@ -12,8 +12,9 @@ function formatAndSendTweet(event) {
     const usdValue = _.get(event, ['payment_token', 'usd_price']);
 
     const formattedEthPrice = ethers.utils.formatEther(totalPrice.toString());
+    const formattedUsdPrice = (formattedEthPrice * usdValue).toFixed(2);
 
-    const tweetText = `${tokenName} bought for ${formattedEthPrice}Ξ ($${formattedEthPrice * usdValue}) #NFTs ${openseaLink}`;
+    const tweetText = `${tokenName} bought for ${formattedEthPrice}Ξ ($${formattedUsdPrice}) #NFTs ${openseaLink}`;
 
     console.log(tweetText);
 
