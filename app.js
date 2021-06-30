@@ -7,16 +7,17 @@ const tweet = require('./tweet');
 function formatAndSendTweet(event) {
     const tokenName = _.get(event, ['asset', 'name']);
     const image = _.get(event, ['asset', 'image_url']);
+    const openseaLink = _.get(event, ['asset', 'permalink']);
     const totalPrice = _.get(event, 'total_price');
     const usdValue = _.get(event, ['payment_token', 'usd_price']);
 
     const formattedEthPrice = ethers.utils.formatEther(totalPrice.toString());
 
-    const tweetText = `${tokenName} bought for ${formattedEthPrice}Ξ ($${formattedEthPrice * usdValue})`;
+    const tweetText = `${tokenName} bought for ${formattedEthPrice}Ξ ($${formattedEthPrice * usdValue}) #NFTs ${openseaLink}`;
 
     console.log(tweetText);
 
-    return tweet.handleDupesAndTweet(tweetText, image);
+    return tweet.handleDupesAndTweet(tokenName, tweetText, image);
 }
 
 // Poll OpenSea every minute & retrieve all sales for a given collection in the last minute
