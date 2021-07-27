@@ -4,9 +4,9 @@ A (very quickly put together) bot that monitors Opensea sales for a given collec
 
 ## Donations
 
-If you find this script useful for your projects, any ETH/Token donations to the following are welcome 🙏 
+If you find this script useful for your projects, any ETH/Token donations to the address below are greatly appreciated 🙏 
 
-ETH Address: 0xDCA88f66CEc8972D23DE7d5e69c40E087C92132f
+Ethereum Address: 0xDCA88f66CEc8972D23DE7d5e69c40E087C92132f
 
 ## Requirements
 
