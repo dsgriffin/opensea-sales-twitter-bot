@@ -22,6 +22,8 @@ Once you have been granted access to a Twitter Developer Account, created a proj
 
 - Create a new Heroku app, link up your Github repo to it so you're able to push commits up and see builds happening in Heroku.
 
+- Log in to the Twitter bot account, then use [Twurl - Generate Access Token Key/Secret Locally](https://github.com/twitter/twurl) to authorize the app & also to  retrieve the access token & access key
+
 - Make sure you are using `worker` dynos and not `web` dynos - can set this in the CLI your project with:
 
 ```sh
