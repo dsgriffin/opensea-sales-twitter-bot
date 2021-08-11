@@ -11,6 +11,7 @@ function formatAndSendTweet(event) {
     const totalPrice = _.get(event, 'total_price');
     const usdValue = _.get(event, ['payment_token', 'usd_price']);
     const tokenSymbol = _.get(event, ['payment_token', 'symbol']);
+    const hashtag = process.env.HASHTAG;
 
     const formattedTokenPrice = ethers.utils.formatEther(totalPrice.toString());
     const formattedUsdPrice = (formattedTokenPrice * usdValue).toFixed(2);
@@ -20,7 +21,7 @@ function formatAndSendTweet(event) {
             : ` ${tokenSymbol}`
     );
 
-    const tweetText = `${tokenName} was bought for ${formattedTokenPrice}${formattedPriceSymbol} ($${formattedUsdPrice}) #NFTs #FVCK_CRYSTAL ${openseaLink}`;
+    const tweetText = `${tokenName} was bought for ${formattedTokenPrice}${formattedPriceSymbol} ($${formattedUsdPrice}) #NFTs ${hashtag} ${openseaLink}`;
 
     console.log(tweetText);
 
