@@ -14,7 +14,7 @@ function formatAndSendTweet(event) {
     const hashtag = process.env.HASHTAG;
 
     const formattedTokenPrice = ethers.utils.formatEther(totalPrice.toString());
-    const formattedUsdPrice = (formattedTokenPrice * usdValue).toFixed(2);
+    const formattedUsdPrice = (formattedTokenPrice * usdValue).toLocaleString('en-US', {minimumFractionDigits: 2});
     const formattedPriceSymbol = (
         (tokenSymbol === 'WETH' || tokenSymbol === 'ETH') 
             ? 'Ξ' 
