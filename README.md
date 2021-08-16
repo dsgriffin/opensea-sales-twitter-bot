@@ -12,11 +12,11 @@ Ethereum Address: 0xDCA88f66CEc8972D23DE7d5e69c40E087C92132f
 
 - [Twitter Developer Account](https://developer.twitter.com/en/apply-for-access)
 
-- Heroku Account (Free Tier is fine)
+- Heroku Account
 
 ## Setup
 
-Once you have been granted access to a Twitter Developer Account, created a project there + created an account on Heroku
+Once you have been granted access to a Twitter Developer Account, created a project there (make sure it has both read/write ticked) + created an account on Heroku
 
 - Clone/Fork/Copy this project to your local public/private git repo
 
@@ -39,9 +39,11 @@ In the Settings section of your Heroku app you'll see a Config Vars section. Add
 - **ACCESS_TOKEN_SECRET** - The Access Token Secret of the Twitter Account your bot is posting from
 - **OPENSEA_COLLECTION_SLUG** - The OpenSea collection name you wish to track (e.g. `cryptopunks`)
 
-## Tweet Content
+## Customization
 
-By default, in the tweet itself I am including an image of the item that was sold, the name of the item, the price in both ETH & USD, an external link if one exists + a couple of hashtags. Check out the [OpenSea Events API](https://docs.opensea.io/reference#retrieving-asset-events) and include whatever extra properties you'd like (such as seller/buyer addresses etc.).
+By default this runs every minute but can easily be changed (might be advisible to run it less often if you have a "free" tier Heroku instance). 
+
+In the tweet itself I am including an image of the item that was sold (you can easily comment this out and just preview the item on OpenSea if preferred), the name of the item, the price in both ETH & USD, an external link if one exists + a couple of hashtags. Check out the [OpenSea Events API](https://docs.opensea.io/reference#retrieving-asset-events) and include whatever extra properties you'd like (such as seller/buyer addresses etc.).
 
 ## Useful Resources
 
