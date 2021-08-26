@@ -3,48 +3,68 @@ const _ = require('lodash');
 const moment = require('moment');
 const { ethers } = require('ethers');
 const tweet = require('./tweet');
+const cache = require('./cache');
 
+// Format tweet text
 function formatAndSendTweet(event) {
     const tokenName = _.get(event, ['asset', 'name']);
-    const image = _.get(event, ['asset', 'image_url']);
     const openseaLink = _.get(event, ['asset', 'permalink']);
     const totalPrice = _.get(event, 'total_price');
     const usdValue = _.get(event, ['payment_token', 'usd_price']);
     const tokenSymbol = _.get(event, ['payment_token', 'symbol']);
 
-    const formattedTokenPrice = ethers.utils.formatEther(totalPrice.toString());
-    const formattedUsdPrice = (formattedTokenPrice * usdValue).toFixed(2);
-    const formattedPriceSymbol = (
-        (tokenSymbol === 'WETH' || tokenSymbol === 'ETH') 
-            ? 'Ξ' 
-            : ` ${tokenSymbol}`
-    );
+    const isEthSale = (tokenSymbol === 'WETH' || tokenSymbol === 'ETH');
+    const formattedEthPrice = ethers.utils.formatEther(totalPrice.toString());
+    const formattedUsdPrice = (formattedEthPrice * usdValue).toFixed(2);
 
-    const tweetText = `${tokenName} bought for ${formattedTokenPrice}${formattedPriceSymbol} ($${formattedUsdPrice}) #NFTs ${openseaLink}`;
+    // Don't tweet out sales below 2 ETH (preference, can be changed)
+    // if (Number(formattedEthPrice) < 2) {
+    //     console.log(`${tokenName} sold for ${formattedEthPrice}${ethers.constants.EtherSymbol}, below tweet price`);
+    //     return;
+    // }
+
+    let tweetText;
+
+    if (isEthSale) {
+        tweetText = `${tokenName} bought for ${formattedEthPrice}Ξ ($${formattedUsdPrice}) #NFT ${openseaLink}`;
+    } else {
+        tweetText = `${tokenName} bought for ${formattedUsdPrice} ${tokenSymbol} #NFT ${openseaLink}`;
+    }
 
     console.log(tweetText);
 
-    return tweet.handleDupesAndTweet(tokenName, tweetText, image);
+    return tweet.tweet(tweetText);
 }
 
-// Poll OpenSea every minute & retrieve all sales for a given collection in the last minute
-// Then pass those events over to the formatter before tweeting
+// Poll OpenSea every 60 seconds & retrieve all sales for a given collection in either the time since the last sale OR in the last minute
 setInterval(() => {
-    const lastMinute = moment().startOf('minute').subtract(59, "seconds").unix();
+    const lastSaleTime = cache.get('lastSaleTime', null) || moment().startOf('minute').subtract(59, "seconds").unix();
+
+    console.log(`Last sale (in seconds since Unix epoch): ${cache.get('lastSaleTime', null)}`);
 
     axios.get('https://api.opensea.io/api/v1/events', {
         params: {
             collection_slug: process.env.OPENSEA_COLLECTION_SLUG,
             event_type: 'successful',
-            occurred_after: lastMinute,
+            occurred_after: lastSaleTime,
             only_opensea: 'false'
         }
     }).then((response) => {
         const events = _.get(response, ['data', 'asset_events']);
 
-        console.log(`${events.length} sales in the last minute...`);
+        const sortedEvents = _.sortBy(events, function(event) {
+            const created = _.get(event, 'created_date');
 
-        _.each(events, (event) => {
+            return new Date(created);
+        })
+
+        console.log(`${events.length} sales since the last one...`);
+
+        _.each(sortedEvents, (event) => {
+            const created = _.get(event, 'created_date');
+
+            cache.set('lastSaleTime', moment(created).unix());
+
             return formatAndSendTweet(event);
         });
     }).catch((error) => {
