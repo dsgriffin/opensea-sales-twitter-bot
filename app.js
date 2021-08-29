@@ -14,7 +14,7 @@ function formatAndSendTweet(event) {
     const tokenSymbol = _.get(event, ['payment_token', 'symbol']);
 
     // OPTIONAL - if you want to tweet a status including the image too
-    const imageUrl = _.get(event, ['asset', 'image_url']);
+    // const imageUrl = _.get(event, ['asset', 'image_url']);
 
     const isEthSale = (tokenSymbol === 'WETH' || tokenSymbol === 'ETH');
     const formattedEthPrice = ethers.utils.formatEther(totalPrice.toString());
@@ -29,17 +29,17 @@ function formatAndSendTweet(event) {
     let tweetText;
 
     if (isEthSale) {
-        tweetText = `${tokenName} bought for ${formattedEthPrice}Ξ ($${formattedUsdPrice}) #WickedCraniums #NFT ${openseaLink}`;
+        tweetText = `${tokenName} bought for ${formattedEthPrice}Ξ ($${formattedUsdPrice}) #NFT ${openseaLink}`;
     } else {
-        tweetText = `${tokenName} bought for ${formattedUsdPrice} ${tokenSymbol} #WickedCraniums #NFT ${openseaLink}`;
+        tweetText = `${tokenName} bought for ${formattedUsdPrice} ${tokenSymbol} #NFT ${openseaLink}`;
     }
 
     console.log(tweetText);
 
     // OPTIONAL - if you want the tweet to include an attached image
-    return tweet.tweetWithImage(tweetText, imageUrl);
+    // return tweet.tweetWithImage(tweetText, imageUrl);
 
-    // return tweet.tweet(tweetText);
+    return tweet.tweet(tweetText);
 }
 
 // Poll OpenSea every 60 seconds & retrieve all sales for a given collection in either the time since the last sale OR in the last minute
