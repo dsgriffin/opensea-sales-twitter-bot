@@ -13,6 +13,9 @@ function formatAndSendTweet(event) {
     const usdValue = _.get(event, ['payment_token', 'usd_price']);
     const tokenSymbol = _.get(event, ['payment_token', 'symbol']);
 
+    // OPTIONAL - if you want to tweet a status including the image too
+    // const image = _.get(event, ['asset', 'image_url']);
+
     const isEthSale = (tokenSymbol === 'WETH' || tokenSymbol === 'ETH');
     const formattedEthPrice = ethers.utils.formatEther(totalPrice.toString());
     const formattedUsdPrice = (formattedEthPrice * usdValue).toFixed(2);
@@ -32,6 +35,9 @@ function formatAndSendTweet(event) {
     }
 
     console.log(tweetText);
+
+    // OPTIONAL - if you want the tweet to include an attached image
+    // return tweet.tweetWithImage(tweetText, imageUrl);
 
     return tweet.tweet(tweetText);
 }

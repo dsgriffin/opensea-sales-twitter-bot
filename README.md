@@ -47,6 +47,10 @@ heroku ps:scale worker=1
 
 By default I am just include the name, price in eth & usd, a hashtag or two and a link to the NFT on OpenSea. Check out the [OpenSea Events API](https://docs.opensea.io/reference#retrieving-asset-events) if you want to include additional info (such as seller/buyer addresses etc.).
 
+There is `tweetWithImage` function that you can use instead of the default `tweet` method if you prefer - this will display the full image file as part of the tweet, instead of the standard OpenSea preview image.
+
+In `app.js`, on line 24 you can see there's a commented out conditional if you'd like to only tweet out sales above a certain amount of Eth.
+
 As mentioned at the top of the README, it runs every 60 seconds by default - you can change this to run less often if you'd like to keep it on a free Heroku instance.
 
 ## License
