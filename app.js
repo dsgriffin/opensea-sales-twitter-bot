@@ -21,17 +21,17 @@ function formatAndSendTweet(event) {
     const formattedUsdPrice = (formattedEthPrice * usdValue).toFixed(2);
 
     // OPTIONAL - don't tweet out sales below 1 ETH (preference, can be changed)
-    // if (Number(formattedEthPrice) < 1) {
-    //     console.log(`${tokenName} sold for ${formattedEthPrice}${ethers.constants.EtherSymbol}, below tweet price`);
-    //     return;
-    // }
+    if (Number(formattedEthPrice) < 3) {
+        console.log(`${tokenName} sold for ${formattedEthPrice}${ethers.constants.EtherSymbol}, below tweet price`);
+        return;
+    }
 
     let tweetText;
 
     if (isEthSale) {
-        tweetText = `${tokenName} bought for ${formattedEthPrice}Ξ ($${formattedUsdPrice}) #NFT ${openseaLink}`;
+        tweetText = `${tokenName} bought for ${formattedEthPrice}Ξ ($${formattedUsdPrice}) #EmblemVault $COVAL ${openseaLink}`;
     } else {
-        tweetText = `${tokenName} bought for ${formattedUsdPrice} ${tokenSymbol} #NFT ${openseaLink}`;
+        tweetText = `${tokenName} bought for ${formattedUsdPrice} ${tokenSymbol} #EmblemVault $COVAL ${openseaLink}`;
     }
 
     console.log(tweetText);
