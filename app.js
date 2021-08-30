@@ -21,7 +21,7 @@ function formatAndSendTweet(event) {
     const formattedUsdPrice = (formattedEthPrice * usdValue).toFixed(2);
 
     // OPTIONAL - don't tweet out sales below 1 ETH (preference, can be changed)
-    if (Number(formattedEthPrice) < 3) {
+    if (Number(formattedEthPrice) < 4) {
         console.log(`${tokenName} sold for ${formattedEthPrice}${ethers.constants.EtherSymbol}, below tweet price`);
         return;
     }
