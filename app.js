@@ -20,11 +20,11 @@ function formatAndSendTweet(event) {
     const formattedEthPrice = ethers.utils.formatEther(totalPrice.toString());
     const formattedUsdPrice = (formattedEthPrice * usdValue).toFixed(2);
 
-    // Don't tweet out sales below 1 ETH (preference, can be changed)
-    if (Number(formattedEthPrice) < 1) {
-        console.log(`${tokenName} sold for ${formattedEthPrice}${ethers.constants.EtherSymbol}, below tweet price`);
-        return;
-    }
+    // OPTIONAL - don't tweet out sales below 1 ETH (preference, can be changed)
+    // if (Number(formattedEthPrice) < 1) {
+    //     console.log(`${tokenName} sold for ${formattedEthPrice}${ethers.constants.EtherSymbol}, below tweet price`);
+    //     return;
+    // }
 
     let tweetText;
 
