@@ -7,21 +7,23 @@ const cache = require('./cache');
 
 // Format tweet text
 function formatAndSendTweet(event) {
-    const tokenName = _.get(event, ['asset', 'name']);
-    const openseaLink = _.get(event, ['asset', 'permalink']);
+    // Handle individual items + bundles
+    const tokenName = _.get(event, ['asset', 'name'], _.get(event, ['asset_bundle', 'name']));
+    const openseaLink = _.get(event, ['asset', 'permalink'], _.get(event, ['asset_bundle', 'permalink']));
+
     const totalPrice = _.get(event, 'total_price');
     const usdValue = _.get(event, ['payment_token', 'usd_price']);
     const tokenSymbol = _.get(event, ['payment_token', 'symbol']);
 
     // OPTIONAL - if you want to tweet a status including the image too
-    const imageUrl = _.get(event, ['asset', 'image_url']);
+    // const imageUrl = _.get(event, ['asset', 'image_url']);
 
     const isEthSale = (tokenSymbol === 'WETH' || tokenSymbol === 'ETH');
     const formattedEthPrice = ethers.utils.formatEther(totalPrice.toString());
     const formattedUsdPrice = (formattedEthPrice * usdValue).toFixed(2);
 
     // OPTIONAL - don't tweet out sales below 1 ETH (preference, can be changed)
-    if (Number(formattedEthPrice) < 1.5) {
+    if (Number(formattedEthPrice) < 1) {
         console.log(`${tokenName} sold for ${formattedEthPrice}${ethers.constants.EtherSymbol}, below tweet price`);
         return;
     }
@@ -29,22 +31,22 @@ function formatAndSendTweet(event) {
     let tweetText;
 
     if (isEthSale) {
-        tweetText = `${tokenName} bought for ${formattedEthPrice}Ξ ($${formattedUsdPrice}) #WickedCraniums #NFT ${openseaLink}`;
+        tweetText = `${tokenName} bought for ${formattedEthPrice}Ξ ($${formattedUsdPrice}) #ensdomains #domains ${openseaLink}`;
     } else {
-        tweetText = `${tokenName} bought for ${formattedUsdPrice} ${tokenSymbol} #WickedCraniums #NFT ${openseaLink}`;
+        tweetText = `${tokenName} bought for ${formattedUsdPrice} ${tokenSymbol} #ensdomains #domains ${openseaLink}`;
     }
 
     console.log(tweetText);
 
     // OPTIONAL - if you want the tweet to include an attached image
-    return tweet.tweetWithImage(tweetText, imageUrl);
+    // return tweet.tweetWithImage(tweetText, imageUrl);
 
-    // return tweet.tweet(tweetText);
+    return tweet.tweet(tweetText);
 }
 
 // Poll OpenSea every 60 seconds & retrieve all sales for a given collection in either the time since the last sale OR in the last minute
 setInterval(() => {
-    const lastSaleTime = cache.get('lastSaleTime', null) || moment().startOf('minute').subtract(59, "seconds").unix();
+    const lastSaleTime = cache.get('lastSaleTime', null) || moment().subtract(59, "minutes").unix();
 
     console.log(`Last sale (in seconds since Unix epoch): ${cache.get('lastSaleTime', null)}`);
 
