@@ -7,38 +7,42 @@ const cache = require('./cache');
 
 // Format tweet text
 function formatAndSendTweet(event) {
-    // Handle individual items + bundles
+    // Handle both individual items + bundle sales
     const tokenName = _.get(event, ['asset', 'name'], _.get(event, ['asset_bundle', 'name']));
     const openseaLink = _.get(event, ['asset', 'permalink'], _.get(event, ['asset_bundle', 'permalink']));
-
     const totalPrice = _.get(event, 'total_price');
-    const usdValue = _.get(event, ['payment_token', 'usd_price']);
-    const tokenSymbol = _.get(event, ['payment_token', 'symbol']);
 
-    // OPTIONAL - if you want to tweet a status including the image too
-    // const imageUrl = _.get(event, ['asset', 'image_url']);
+    // Need to format currency & tweet differently based on if eth/weth vs stablecoins & other currencies
+    const tokenSymbol = _.get(event, ['payment_token', 'symbol']);
+    const tokenUsdValue = _.get(event, ['payment_token', 'usd_price']);
 
     const isEthSale = (tokenSymbol === 'WETH' || tokenSymbol === 'ETH');
-    const formattedEthPrice = ethers.utils.formatEther(totalPrice.toString());
-    const formattedUsdPrice = (formattedEthPrice * usdValue).toFixed(2);
 
-    // OPTIONAL - don't tweet out sales below 1 ETH (preference, can be changed)
-    if (Number(formattedEthPrice) < 2) {
-        console.log(`${tokenName} sold for ${formattedEthPrice}${ethers.constants.EtherSymbol}, below tweet price`);
-        return;
-    }
+    const formattedEthPrice = ethers.utils.formatEther(totalPrice.toString());
+    const formattedUsdPrice = (formattedEthPrice * tokenUsdValue).toFixed(2);
 
     let tweetText;
 
     if (isEthSale) {
-        tweetText = `${tokenName} bought for ${formattedEthPrice}Ξ ($${formattedUsdPrice}) #EmblemVault $COVAL ${openseaLink}`;
+        tweetText = `${tokenName} bought for ${formattedEthPrice}${ethers.constants.EtherSymbol} ($${formattedUsdPrice}) #NFT ${openseaLink}`;
     } else {
-        tweetText = `${tokenName} bought for ${formattedUsdPrice} ${tokenSymbol} #EmblemVault $COVAL ${openseaLink}`;
+        tweetText = `${tokenName} bought for ${formattedUsdPrice} ${tokenSymbol} #NFT ${openseaLink}`;
     }
 
     console.log(tweetText);
 
-    // OPTIONAL - if you want the tweet to include an attached image
+    // OPTIONAL PREFERENCE - don't tweet out sales below X ETH (defaulted to 1 as shown, change to what you prefer)
+    // const tokenEthPrice = _.get(event, ['payment_token', 'eth_price']);
+    // const xEth = 1;
+    // const ethSaleUnderXEth = isEthSale && Number(formattedEthPrice) < xEth;
+    // const nonEthSaleUnderXEth = !isEthSale && (formattedUsdPrice * tokenEthPrice) < xEth;
+    // if (ethSaleUnderXEth || nonEthSaleUnderXEth) {
+    //     console.log(`${tokenName} sold below tweet price (${xEth} ether)`);
+    //     return;
+    // }
+
+    // OPTIONAL PREFERENCE - uncomment both below (and comment out return tweet.tweet(...) below) if you want the tweet to include an attached image instead of just text
+    // const imageUrl = _.get(event, ['asset', 'image_url']);
     // return tweet.tweetWithImage(tweetText, imageUrl);
 
     return tweet.tweet(tweetText);
