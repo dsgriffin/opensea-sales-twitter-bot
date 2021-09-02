@@ -21,15 +21,15 @@ function formatAndSendTweet(event) {
     const formattedEthPrice = formattedUnits * tokenEthPrice;
     const formattedUsdPrice = formattedUnits * tokenUsdPrice;
 
-    const tweetText = `${assetName} bought for ${formattedEthPrice}${ethers.constants.EtherSymbol} ($${Number(formattedUsdPrice).toFixed(2)}) #NFT ${openseaLink}`;
+    const tweetText = `${assetName} bought for ${formattedEthPrice}${ethers.constants.EtherSymbol} ($${Number(formattedUsdPrice).toFixed(2)}) #EmblemVault $COVAL ${openseaLink}`;
 
     console.log(tweetText);
 
     // OPTIONAL PREFERENCE - don't tweet out sales below X ETH (default is 1 ETH - change to what you prefer)
-    // if (Number(formattedEthPrice) < 1) {
-    //     console.log(`${assetName} sold below tweet price (${formattedEthPrice} ETH).`);
-    //     return;
-    // }
+    if (Number(formattedEthPrice) < 2) {
+        console.log(`${assetName} sold below tweet price (${formattedEthPrice} ETH).`);
+        return;
+    }
 
     // OPTIONAL PREFERENCE - if you want the tweet to include an attached image instead of just text
     // const imageUrl = _.get(event, ['asset', 'image_url']);
