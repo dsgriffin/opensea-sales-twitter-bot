@@ -11,36 +11,25 @@ function formatAndSendTweet(event) {
     const assetName = _.get(event, ['asset', 'name'], _.get(event, ['asset_bundle', 'name']));
     const openseaLink = _.get(event, ['asset', 'permalink'], _.get(event, ['asset_bundle', 'permalink']));
 
-    // Need to format currency & tweet differently based on if eth/weth vs stablecoins & other currencies
-    const tokenSymbol = _.get(event, ['payment_token', 'symbol']);
-    const tokenUsdValue = _.get(event, ['payment_token', 'usd_price']);
-
-    const isEthSale = (tokenSymbol === 'WETH' || tokenSymbol === 'ETH');
-
-    // Retrieve and format final prices
     const totalPrice = _.get(event, 'total_price');
-    const totalPriceEth = ethers.utils.formatEther(totalPrice);
-    const totalPriceUsd = (totalPriceEth * tokenUsdValue).toFixed(2);
 
-    let tweetText;
+    const tokenDecimals = _.get(event, ['payment_token', 'decimals']);
+    const tokenUsdPrice = _.get(event, ['payment_token', 'usd_price']);
+    const tokenEthPrice = _.get(event, ['payment_token', 'eth_price']);
 
-    if (isEthSale) {
-        tweetText = `${assetName} bought for ${totalPriceEth}${ethers.constants.EtherSymbol} ($${totalPriceUsd}) #EmblemVault $COVAL ${openseaLink}`;
-    } else {
-        tweetText = `${assetName} bought for ${totalPriceUsd} ${tokenSymbol} #EmblemVault $COVAL ${openseaLink}`;
-    }
+    const formattedUnits = ethers.utils.formatUnits(totalPrice, tokenDecimals);
+    const formattedEthPrice = formattedUnits * tokenEthPrice;
+    const formattedUsdPrice = formattedUnits * tokenUsdPrice;
+
+    const tweetText = `${assetName} bought for ${formattedEthPrice}${ethers.constants.EtherSymbol} ($${Number(formattedUsdPrice).toFixed(2)}) #NFT ${openseaLink}`;
 
     console.log(tweetText);
 
     // OPTIONAL PREFERENCE - don't tweet out sales below X ETH (default is 1 ETH - change to what you prefer)
-    const tokenEthPrice = _.get(event, ['payment_token', 'eth_price']);
-    const xEth = 2;
-    const ethSaleUnderXEth = isEthSale && (totalPriceEth < xEth);
-    const nonEthSaleUnderXEth = !isEthSale && (totalPriceUsd * tokenEthPrice) < xEth;
-    if (ethSaleUnderXEth || nonEthSaleUnderXEth) {
-        console.log(`${assetName} sold below tweet price (${xEth} ether)`);
-        return;
-    }
+    // if (Number(formattedEthPrice) < 1) {
+    //     console.log(`${assetName} sold below tweet price (${formattedEthPrice} ETH).`);
+    //     return;
+    // }
 
     // OPTIONAL PREFERENCE - if you want the tweet to include an attached image instead of just text
     // const imageUrl = _.get(event, ['asset', 'image_url']);
