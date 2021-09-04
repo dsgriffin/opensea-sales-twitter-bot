@@ -21,12 +21,12 @@ function formatAndSendTweet(event) {
     const formattedEthPrice = formattedUnits * tokenEthPrice;
     const formattedUsdPrice = formattedUnits * tokenUsdPrice;
 
-    const tweetText = `${assetName} bought for ${formattedEthPrice}${ethers.constants.EtherSymbol} ($${Number(formattedUsdPrice).toFixed(2)}) #EmblemVault $COVAL ${openseaLink}`;
+    const tweetText = `${assetName} bought for ${formattedEthPrice}${ethers.constants.EtherSymbol} ($${Number(formattedUsdPrice).toFixed(2)}) #ensdomains #domains ${openseaLink}`;
 
     console.log(tweetText);
 
     // OPTIONAL PREFERENCE - don't tweet out sales below X ETH (default is 1 ETH - change to what you prefer)
-    if (Number(formattedEthPrice) < 2) {
+    if (Number(formattedEthPrice) < 1) {
         console.log(`${assetName} sold below tweet price (${formattedEthPrice} ETH).`);
         return;
     }
