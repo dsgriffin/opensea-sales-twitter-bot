@@ -21,7 +21,10 @@ function formatAndSendTweet(event) {
     const formattedEthPrice = formattedUnits * tokenEthPrice;
     const formattedUsdPrice = formattedUnits * tokenUsdPrice;
 
-    const tweetText = `${assetName} bought for ${formattedEthPrice}${ethers.constants.EtherSymbol} ($${Number(formattedUsdPrice).toFixed(2)}) #MFPOOMA #MFP #NFT ${openseaLink}`;
+    const tweetText = `POOMA LOOMPA DOOMPADEE DOO,
+    I'VE GOT ANOTHER SALE FOR YOU!
+    
+    ${assetName} bought for ${formattedEthPrice}${ethers.constants.EtherSymbol} ($${Number(formattedUsdPrice).toFixed(2)}) #MFPOOMA #MFP #MFWONKA #NFT ${openseaLink}`;
 
     console.log(tweetText);
 
