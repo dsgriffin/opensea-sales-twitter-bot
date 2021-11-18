@@ -45,6 +45,9 @@ setInterval(() => {
     console.log(`Last sale (in seconds since Unix epoch): ${cache.get('lastSaleTime', null)}`);
 
     axios.get('https://api.opensea.io/api/v1/events', {
+        headers: {
+            'X-API-KEY': process.env.X_API_KEY
+        },
         params: {
             collection_slug: process.env.OPENSEA_COLLECTION_SLUG,
             event_type: 'successful',
