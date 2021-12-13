@@ -10,7 +10,7 @@ Eth Address: 0xDCA88f66CEc8972D23DE7d5e69c40E087C92132f
 
 ## Requirements
 
-- [Twitter Developer Account](https://developer.twitter.com/en/apply-for-access)
+- [Twitter Developer Account](https://developer.twitter.com/en/apply-for-access) (with [Elevated Access](https://developer.twitter.com/en/portal/products/elevated), as we need v1.1 endpoint access)
 
 - A OpenSea API Key (request one [here](https://docs.opensea.io/reference/api-overview))
 
