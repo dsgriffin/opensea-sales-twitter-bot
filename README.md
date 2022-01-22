@@ -1,14 +1,16 @@
-# OpenSea Sales Twitter Bot
+# OpenSea Sales Twitter Bot 🤖
 
 A (quickly put together) bot that monitors Opensea sales for a given collection & then posts them to Twitter.
 
-## Donations
+If you're looking for an Ethereum-native solution that can track sales across multiple marketplaces, see [NFT Sales Twitter Bot](https://github.com/dsgriffin/nft-sales-twitter-bot)
+
+## Donations 💵
 
 If you find this script/repo useful for your project, any ETH/Altcoin/NFT donations are greatly appreciated 🙏
 
 Eth Address: 0xDCA88f66CEc8972D23DE7d5e69c40E087C92132f
 
-## Requirements
+## Requirements 📝
 
 - [Twitter Developer Account](https://developer.twitter.com/en/apply-for-access) (with [Elevated Access](https://developer.twitter.com/en/portal/products/elevated), as we need v1.1 endpoint access)
 
@@ -16,7 +18,7 @@ Eth Address: 0xDCA88f66CEc8972D23DE7d5e69c40E087C92132f
 
 - Heroku Account (a free account **should** be fine **if** you tweak the project to run less often than every minute (by default it is every minute), otherwise a $7 a month dyno instance is more than enough).
 
-## Setup
+## Setup 🔧
 
 - Clone/Fork/Copy this project to your local public/private git repo
 
@@ -46,7 +48,7 @@ heroku ps:scale web=0
 heroku ps:scale worker=1
 ```
 
-## Modification
+## Modification 🛠
 
 By default I am just include the name, price in eth & usd, a hashtag or two and a link to the NFT on OpenSea. Check out the [OpenSea Events API](https://docs.opensea.io/reference#retrieving-asset-events) if you want to include additional info (such as seller/buyer addresses etc.).
 
@@ -56,8 +58,8 @@ In `app.js`, on line 24 you can see there's a commented out conditional if you'd
 
 As mentioned at the top of the README, it runs every 60 seconds by default - you can change this to run less often if you'd like to keep it on a free Heroku instance.
 
-## License
+## License 📃
 
 This code is licensed under the [ISC License](https://choosealicense.com/licenses/isc/).
 
-Please include proper attribution to my original project if you fork or modify this project in any way. Thank you!
+Please include proper attribution to my original repo if you fork, modify or utilize this repo in any way. Thank you!
