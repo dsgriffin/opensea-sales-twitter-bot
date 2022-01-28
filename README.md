@@ -2,7 +2,7 @@
 
 A (quickly put together) bot that monitors Opensea sales for a given collection & then posts them to Twitter.
 
-**IMPORTANT -** If you're looking for an Ethereum-native solution that can track sales across multiple marketplaces, see [NFT Sales Twitter Bot](https://github.com/dsgriffin/nft-sales-twitter-bot)
+**⚠️ IMPORTANT -** If you're looking to track sales across multiple marketplaces (LooksRare etc.), see [NFT Sales Twitter Bot](https://github.com/dsgriffin/nft-sales-twitter-bot)
 
 ## Donations 💵
 
