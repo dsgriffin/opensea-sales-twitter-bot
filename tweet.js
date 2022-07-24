@@ -1,62 +1,44 @@
-const axios = require('axios');
-const twit = require('twit');
+const axios = require("axios");
+const { TwitterApi } = require("twitter-api-v2");
 
 const twitterConfig = {
-    consumer_key: process.env.CONSUMER_KEY,
-    consumer_secret: process.env.CONSUMER_SECRET,
-    access_token: process.env.ACCESS_TOKEN_KEY,
-    access_token_secret: process.env.ACCESS_TOKEN_SECRET,
+  appKey: process.env.CONSUMER_KEY,
+  appSecret: process.env.CONSUMER_SECRET,
+  accessToken: process.env.ACCESS_TOKEN_KEY,
+  accessSecret: process.env.ACCESS_TOKEN_SECRET,
 };
 
-const twitterClient = new twit(twitterConfig);
+const twitterClient = new TwitterApi(twitterConfig);
 
 // Tweet a text-based status
 async function tweet(tweetText) {
-    const tweet = {
-        status: tweetText,
-    };
-
-    twitterClient.post('statuses/update', tweet, (error, tweet, response) => {
-        if (!error) {
-            console.log(`Successfully tweeted: ${tweetText}`);
-        } else {
-            console.error(error);
-        }
-    });
+  await twitterClient.v2.tweet(tweetText);
+  console.log(`Successfully tweeted: ${tweetText}`);
 }
 
 // OPTIONAL - use this method if you want the tweet to include the full image file of the OpenSea item in the tweet.
 async function tweetWithImage(tweetText, imageUrl) {
-    // Format our image to base64
-    const processedImage = await getBase64(imageUrl);
-
-    // Upload the item's image from OpenSea to Twitter & retrieve a reference to it
-    twitterClient.post('media/upload', { media_data: processedImage }, (error, media, response) => {
-        if (!error) {
-            const tweet = {
-                status: tweetText,
-                media_ids: [media.media_id_string]
-            };
-
-            twitterClient.post('statuses/update', tweet, (error, tweet, response) => {
-                if (!error) {
-                    console.log(`Successfully tweeted: ${tweetText}`);
-                } else {
-                    console.error(error);
-                }
-            });
-        } else {
-            console.error(error);
-        }
-    });
+  // Format our image to base64
+  var image = await getBase64(imageUrl);
+  // Upload image
+  var mediaId = await twitterClient.v1.uploadMedia(image, {
+    mimeType: "EUploadMimeType." + imageUrl.split(".").pop(),
+  });
+  // Tweet with mediaId of image
+  await twitterClient.v1.tweet(tweetText, {
+    media_ids: [mediaId],
+  });
+  console.log(`Successfully tweeted: ${tweetText}`);
 }
 
-// Format a provided URL into it's base64 representation
+// Format a provided URL into a buffer object
 function getBase64(url) {
-    return axios.get(url, { responseType: 'arraybuffer'}).then(response => Buffer.from(response.data, 'binary').toString('base64'))
+  return axios
+    .get(url, { responseType: "arraybuffer" })
+    .then((response) => Buffer.from(response.data));
 }
 
 module.exports = {
-    tweet: tweet,
-    tweetWithImage: tweetWithImage
+  tweet: tweet,
+  tweetWithImage: tweetWithImage,
 };
